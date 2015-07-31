@@ -60,7 +60,7 @@ arch-chroot /mnt grub-mkconfig > /mnt/boot/grub/grub.cfg
 genfstab /mnt >> /mnt/etc/fstab
 
 #set hostname
-echo "ArchBox" > /mnt/etc/hostname
+arch-chroot /mnt echo "ArchyBox" > /mnt/etc/hostname
 
 # Configure Swedish Locale, language and keymaps
 arch-chroot /mnt echo "en_US.UTF-8 UTF-8" >> /mnt/etc/locale.gen
