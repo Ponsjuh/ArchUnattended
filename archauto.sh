@@ -11,15 +11,6 @@ if [ ! -x "/sbin/parted" ]; then
     exit 1
 fi
 
-#while true; do
-#    read -p "Warning! This will partition and format any unformatted storage volumes! Are you sure? " yn
-#    case $yn in
-#        [Yy]* ) break;;
-#        [Nn]* ) exit;;
-#        * ) echo "Please answer yes or no.";;
-#    esac
-#done
-
 ## Begins of auto-parted part and format
 
 parted -a optimal --script ${DISK} -- mktable gpt
@@ -30,10 +21,6 @@ parted -a optimal --script ${DISK} -- set 1 bios_grub on
 
 mkfs.ext4 ${DISK}2
 mkfs.ext4 ${DISK}3
-
-#expect ${DISK}1 to be GRUB-GPT-BIOS COMPAT
-#	${DISK}2 to be /boot
-#	${DISK}3 to be /
 
 ##################################################################
 # Stage 1, bootstrap partitions/filesystems and OS Base packages #
@@ -49,6 +36,8 @@ mount ${DISK}2 /mnt/boot
 
 # Replace mirrorlist with known fast and good Swedish mirror
 echo 'Server = http://archlinux.dynamict.se/$repo/os/$arch' > /etc/pacman.d/mirrorlist
+echo 'Server = http://mirror.nl.leaseweb.net/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist
+
 
 #echo '[xyne-any]' >> /etc/pacman.conf
 #echo 'SigLevel = Required' >> /etc/pacman.conf
