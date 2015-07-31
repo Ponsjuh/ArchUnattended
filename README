@@ -1,3 +1,11 @@
 Arch Linux unattended install script
 
 short url https://goo.gl/QHCUZq
+
+To run
+
+1. wget -O run https://goo.gl/QHCUZq
+2. sh run
+
+TODO:
+
