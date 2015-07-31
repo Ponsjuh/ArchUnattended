@@ -14,10 +14,10 @@ fi
 ## Begins of auto-parted part and format
 
 parted -a optimal --script ${DISK} -- mktable gpt
-parted -a none --script ${DISK} -- mkpart none 0 1MB
-parted -a optimal --script ${DISK} -- mkpart ext2 1MB 128MB
-parted -a optimal --script ${DISK} -- mkpart ext2 128MB 100%
-parted -a optimal --script ${DISK} -- set 2 boot on
+parted -a none --script ${DISK} -- mkpart none 0 32MB
+parted -a optimal --script ${DISK} -- mkpart ext4 32MB 256MB
+parted -a optimal --script ${DISK} -- mkpart ext4 256MB 100%
+parted -a optimal --script ${DISK} -- set 1 bios_grub on
 
 mkfs.ext4 ${DISK}2
 mkfs.ext4 ${DISK}3
@@ -54,7 +54,7 @@ function do_stage_2 {
 ########################################################
 
 # Configure and embed installed GRUB from pacstrap stage
-arch-chroot /mnt grub-install --target=i686-pc ${DISK}
+arch-chroot /mnt grub-install --no-floppy ${DISK}
 arch-chroot /mnt grub-mkconfig > /mnt/boot/grub/grub.cfg
 # Generate appropriate fstab entries
 genfstab -U /mnt >> /mnt/etc/fstab
