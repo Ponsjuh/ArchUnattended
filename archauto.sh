@@ -19,9 +19,9 @@ fi
 #parted -a optimal --script ${DISK} -- mkpart ext2 128MB 100%
 #parted -a optimal --script ${DISK} -- set 1 boot on
 
-parted -a optimal --script ${DISK} -- mkpart ESP fat32 1MiB 513MiB
+parted -a optimal --script ${DISK} -- mkpart ESP fat32 0 512MB
 parted -a optimal --script ${DISK} -- set 1 boot on
-parted -a optimal --script ${DISK} -- mkpart primary ext4 513MiB 100%
+parted -a optimal --script ${DISK} -- mkpart primary ext4 512MB 100%
 
 mkfs.ext4 ${DISK}2
 #mkfs.ext4 ${DISK}3
