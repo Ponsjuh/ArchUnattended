@@ -35,18 +35,7 @@ mkdir /mnt/boot
 mount ${DISK}2 /mnt/boot
 
 # Replace mirrorlist with known fast and good Swedish mirror
-echo 'Server = http://archlinux.dynamict.se/$repo/os/$arch' > /etc/pacman.d/mirrorlist
-echo 'Server = http://mirror.nl.leaseweb.net/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist
-
-
-#echo '[xyne-any]' >> /etc/pacman.conf
-#echo 'SigLevel = Required' >> /etc/pacman.conf
-#echo 'Server = http://xyne.archlinux.ca/repos/xyne' >> /etc/pacman.conf
-
-#pacman -Sy --noconfirm pacserve
-#systemctl start pacserve.service
-#pacman.conf-insert_pacserve > /tmp/pacman.conf
-#cp /tmp/pacman.conf /etc/pacman.conf
+curl -s --data "country=NL&protocol=http&ip_version=4" https://www.archlinux.org/mirrorlist/ | sed 's/#Server/Server/g' > /etc/pacman.d/mirrorlist
 
 # Bootstrap the Base OS packages (and grub)
 pacstrap /mnt base grub dialog openssh
@@ -71,11 +60,12 @@ arch-chroot /mnt grub-mkconfig > /mnt/boot/grub/grub.cfg
 genfstab -U /mnt >> /mnt/etc/fstab
 
 # Configure Swedish Locale, language and keymaps
-arch-chroot /mnt echo "sv_SE.UTF-8 UTF-8" >> /mnt/etc/locale.gen
-arch-chroot /mnt echo "sv_SE ISO-8859-1" >> /mnt/etc/locale.gen
+arch-chroot /mnt echo "en_US.UTF-8 UTF-8" >> /mnt/etc/locale.gen
+arch-chroot /mnt echo "en_US ISO-8859-1" >> /mnt/etc/locale.gen
 arch-chroot /mnt locale-gen
-arch-chroot /mnt echo "LANG=sv_SE.UTF-8" > /mnt/etc/locale.conf
-arch-chroot /mnt echo "KEYMAP=sv-latin1" > /mnt/etc/vconsole.conf
+arch-chroot /mnt echo "LANG=en_US.UTF-8" > /mnt/etc/locale.conf
+arch-chroot /mnt echo "KEYMAP=us" > /mnt/etc/vconsole.conf
+arch-chroot /mnt echo "FONT=lat9w-16" >> /mnt/etc/vconsole.conf
 
 # Enable SSHD and DHCP-Client for remote access
 arch-chroot /mnt systemctl enable sshd
