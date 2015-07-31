@@ -13,18 +13,14 @@ fi
 
 ## Begins of auto-parted part and format
 
-#parted -a optimal --script ${DISK} -- mktable gpt
-#parted -a none --script ${DISK} -- mkpart none 0 1MB
-#parted -a optimal --script ${DISK} -- mkpart ext2 1MB 128MB
-#parted -a optimal --script ${DISK} -- mkpart ext2 128MB 100%
-#parted -a optimal --script ${DISK} -- set 1 boot on
-
-parted -a optimal --script ${DISK} -- mkpart ESP fat32 0 512MB
-parted -a optimal --script ${DISK} -- set 1 boot on
-parted -a optimal --script ${DISK} -- mkpart primary ext4 512MB 100%
+parted -a optimal --script ${DISK} -- mktable gpt
+parted -a none --script ${DISK} -- mkpart none 0 1MB
+parted -a optimal --script ${DISK} -- mkpart ext2 1MB 128MB
+parted -a optimal --script ${DISK} -- mkpart ext2 128MB 100%
+parted -a optimal --script ${DISK} -- set 2 boot on
 
 mkfs.ext4 ${DISK}2
-#mkfs.ext4 ${DISK}3
+mkfs.ext4 ${DISK}3
 
 ##################################################################
 # Stage 1, bootstrap partitions/filesystems and OS Base packages #
