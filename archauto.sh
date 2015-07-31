@@ -38,7 +38,7 @@ mount ${DISK}2 /mnt/boot
 curl -s --data "country=NL&protocol=http&ip_version=4" https://www.archlinux.org/mirrorlist/ | sed 's/#Server/Server/g' > /etc/pacman.d/mirrorlist
 
 # Bootstrap the Base OS packages (and grub)
-pacstrap /mnt base virtualbox grub dialog openssh
+pacstrap /mnt base base-devel grub dialog openssh
 
 cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist
 
